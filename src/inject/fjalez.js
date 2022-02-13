@@ -19,8 +19,50 @@ const fjalez = () => {
       }
     }
 
+    if (rreshti.length === 0) continue;
+
     rreshtat.push(rreshti);
   }
 
   return rreshtat;
+};
+
+const compare = (row) => {
+  const output = {};
+
+  // Loop through the WORDS
+  for (let i = 0; i < WORDS.length; i++) {
+    const word = WORDS[i];
+
+    // Loop through the row
+    for (let j = 0; j < row.length; j++) {
+      // Get the letter
+      const letter = row[j].letter.toLowerCase();
+      const position = row[j].position;
+
+      if (position === "wrong") {
+        if (word.includes(letter)) {
+          if (output[word] === undefined) output[word] = 0;
+          output[word] += 1;
+        }
+      } else if (position === "correct") {
+        if (word[j] === letter) {
+          if (output[word] === undefined) output[word] = 0;
+          output[word] += 2;
+        }
+      }
+    }
+  }
+
+  // Sort the words
+  const sorted = [];
+  Object.keys(output)
+    .sort((a, b) => output[b] - output[a])
+    .forEach((key) => {
+      sorted.push({ word: key, score: output[key] });
+    });
+
+  console.log("Rating", sorted);
+
+  return sorted;
 };

@@ -7,7 +7,8 @@ chrome.extension.sendMessage({}, function (response) {
       window.addEventListener("keydown", (e) => {
         if (e.key === "Enter") {
           const data = fjalez();
-          console.log(data);
+          // Process the last row only
+          compare(data[data.length - 1]);
         }
       });
 
