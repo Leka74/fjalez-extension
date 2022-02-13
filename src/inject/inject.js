@@ -6,9 +6,12 @@ chrome.extension.sendMessage({}, function (response) {
       // Execute when pressing enter
       window.addEventListener("keydown", (e) => {
         if (e.key === "Enter") {
-          const data = fjalez();
-          // Process the last row only
-          compare(data[data.length - 1]);
+          // Timeout to make sure the DOM updates before we get the data
+          setTimeout(() => {
+            const data = fjalez();
+            // Process the last row only
+            compare(data[data.length - 1]);
+          }, 500);
         }
       });
 
