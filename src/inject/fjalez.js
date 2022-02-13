@@ -41,7 +41,7 @@ const compare = (row) => {
       const position = row[j].position;
 
       if (position === "wrong") {
-        if (word.includes(letter)) {
+        if (word.includes(letter) && word[j] !== letter) {
           if (output[word] === undefined) output[word] = 0;
           output[word] += 1;
         }
