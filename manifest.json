@@ -23,7 +23,11 @@
     },
     {
       "matches": ["https://fjalez.metinferati.com/*"],
-      "js": ["src/inject/inject.js", "src/inject/fjalez.js"]
+      "js": [
+        "src/inject/inject.js",
+        "src/inject/fjalez.js",
+        "src/inject/words.js"
+      ]
     }
   ]
 }
