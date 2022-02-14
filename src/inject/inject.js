@@ -3,15 +3,27 @@ chrome.extension.sendMessage({}, function (response) {
     if (document.readyState === "complete") {
       clearInterval(readyStateCheckInterval);
 
+      // Create html element to display the data on the page
+      const container = document.createElement("div");
+      container.style.position = "absolute";
+      container.style.top = "10px";
+      container.style.right = "10px";
+      container.style.color = "white";
+      container.style.fontSize = "12px";
+      container.innerHTML = "Press Enter to process data";
+      document.body.append(container);
+
       // Execute when pressing enter
       window.addEventListener("keydown", (e) => {
         if (e.key === "Enter") {
           // Timeout to make sure the DOM updates before we get the data
-          setTimeout(() => {
-            const data = fjalez();
-            // Process the last row only
-            compare(data[data.length - 1]);
-          }, 500);
+          const data = fjalez();
+          // Process the last row only
+          const rating = compare(data[data.length - 1]);
+
+          container.innerHTML = rating
+            .map((item) => `<li>${item.word}: ${item.score}</li>`)
+            .join("\n");
         }
       });
 
