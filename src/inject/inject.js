@@ -17,13 +17,16 @@ chrome.extension.sendMessage({}, function (response) {
       window.addEventListener("keydown", (e) => {
         if (e.key === "Enter") {
           // Timeout to make sure the DOM updates before we get the data
-          const data = fjalez();
-          // Process the last row only
-          const rating = compare(data[data.length - 1]);
+          container.innerHTML = "Loading...";
+          setTimeout(() => {
+            const data = fjalez();
+            // Process the last row only
+            const rating = compare(data[data.length - 1]);
 
-          container.innerHTML = rating
-            .map((item) => `<li>${item.word}: ${item.score}</li>`)
-            .join("\n");
+            container.innerHTML = rating
+              .map((item) => `<li>${item.word}: ${item.score}</li>`)
+              .join("\n");
+          }, 200);
         }
       });
 
