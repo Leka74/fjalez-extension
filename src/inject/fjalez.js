@@ -27,32 +27,50 @@ const fjalez = () => {
   return rreshtat;
 };
 
-const compare = (row) => {
+const compare = (rows) => {
   const output = {};
+  const invalidWords = {};
 
-  // Loop through the WORDS
-  for (let i = 0; i < WORDS.length; i++) {
-    const word = WORDS[i];
+  rows.forEach((row) => {
+    // Loop through the WORDS
+    for (let i = 0; i < WORDS.length; i++) {
+      const word = WORDS[i];
+      if (invalidWords[word]) continue;
 
-    // Loop through the row
-    for (let j = 0; j < row.length; j++) {
-      // Get the letter
-      const letter = row[j].letter.toLowerCase();
-      const position = row[j].position;
+      // Loop through the row
+      for (let j = 0; j < row.length; j++) {
+        // Get the letter
+        const letter = row[j].letter.toLowerCase();
+        const position = row[j].position;
 
-      if (position === "wrong") {
-        if (word.includes(letter) && word[j] !== letter) {
-          if (output[word] === undefined) output[word] = 0;
-          output[word] += 1;
-        }
-      } else if (position === "correct") {
-        if (word[j] === letter) {
-          if (output[word] === undefined) output[word] = 0;
-          output[word] += 2;
+        if (position === "wrong") {
+          if (word.includes(letter) && word[j] !== letter) {
+            if (output[word] === undefined) output[word] = 0;
+            output[word] += 1;
+          } else {
+            delete output[word];
+            invalidWords[word] = true;
+            break;
+          }
+        } else if (position === "correct") {
+          if (word[j] === letter) {
+            if (output[word] === undefined) output[word] = 0;
+            output[word] += 2;
+          } else {
+            delete output[word];
+            invalidWords[word] = true;
+            break;
+          }
+        } else if (position === "missing") {
+          if (word.includes(letter)) {
+            delete output[word];
+            invalidWords[word] = true;
+            break;
+          }
         }
       }
     }
-  }
+  });
 
   // Sort the words
   const sorted = [];

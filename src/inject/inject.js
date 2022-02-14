@@ -21,7 +21,7 @@ chrome.extension.sendMessage({}, function (response) {
           setTimeout(() => {
             const data = fjalez();
             // Process the last row only
-            const rating = compare(data[data.length - 1]);
+            const rating = compare(data);
 
             container.innerHTML = rating
               .map((item) => `<li>${item.word}: ${item.score}</li>`)
